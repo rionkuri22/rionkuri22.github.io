@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* --- 1. The "Vibe" Settings (CSS) --- */
+        :root {
+            --bg-color: #F5F5F7; /* Apple-style light gray */
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-sub: #86868B;
+            --accent-red: #FF3B30; /* The red dot color */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- 2. The Floating Pill Navigation --- */
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px); /* The "frosted glass" effect */
+            padding: 10px 6px;
+            border-radius: 50px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: inline-flex;
+            gap: 24px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-sub);
+            font-weight: 500;
+            font-size: 14px;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-main);
+        }
+
+        /* The "Active" state with the red dot */
+        nav a.active {
+            color: var(--text-main);
+        }
+        
+        nav a.active::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        /* --- 3. The Grid Layout --- */
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin-top: 60px;
+            padding-bottom: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 40px;
+        }
+
+        /* --- 4. The Project Cards --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: 32px; /* Super rounded corners like screenshot */
+            padding: 40px;
+            height: 500px; /* Fixed height for consistency */
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Gentle lift on hover */
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .arrow-icon {
+            font-size: 24px;
+            background: #F2F2F7;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            color: var(--text-sub);
+            font-size: 18px;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Placeholder for your project images */
+        .card-image-placeholder {
+            margin-top: 40px;
+            width: 100%;
+            height: 300px;
+            background-color: #F2F2F7;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; } /* Stack on phone */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">About</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>CollegeCart</h2>
+                    <p class="subtitle">A secondhand marketplace for students</p>
+                </div>
+                <div class="arrow-icon">↗</div>
+            </div>
+            <div class="card-image-placeholder">Image</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
