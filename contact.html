@@ -25,6 +25,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* For Logo positioning */
+        }
+
+        /* --- LOGO --- */
+        .logo {
+            position: absolute;
+            top: 40px;
+            left: 5%; 
+            font-size: 24px;
+            font-weight: 900; 
+            color: #000000;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            z-index: 200;
         }
 
         /* --- Navigation --- */
@@ -85,11 +100,12 @@
         }
 
         h1 {
+            /* Matched exact styles from Index page */
             font-size: 56px;
             font-weight: 700;
             margin: 0;
             letter-spacing: -2px;
-            line-height: 1;
+            /* Removed line-height: 1 to match Index page visual weight */
         }
 
         /* Social Cards */
@@ -111,12 +127,10 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* NEW: Gradient Border on Hover */
+        /* Gradient Border on Hover */
         .social-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            
-            /* This trick creates a gradient border */
             background-image: linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(135deg, var(--accent-red), var(--accent-blue));
         }
 
@@ -237,6 +251,9 @@
 
         /* Mobile Responsive */
         @media (max-width: 800px) {
+            .logo { position: relative; top: 0; left: 0; margin-top: 40px; margin-bottom: -20px; }
+            nav { margin-top: 20px; }
+            
             .contact-wrapper {
                 grid-template-columns: 1fr; 
                 gap: 40px;
@@ -247,6 +264,8 @@
     </style>
 </head>
 <body>
+
+    <div class="logo">.NOIR</div>
 
     <nav>
         <a href="index.html">About</a>
@@ -328,7 +347,7 @@
 
         <div class="footer-container">
             <div class="footer-line-1">© 2026 Rion Kurihara</div>
-            <div class="footer-line-2">Coded with the help of Gemini 3</div>
+            <div class="footer-line-2">Developed with the help of Gemini 3</div>
         </div>
 
     </div>
