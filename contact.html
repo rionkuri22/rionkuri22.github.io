@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <style>
+        /* --- Shared Styles --- */
+        :root {
+            --bg-color: #F5F5F7;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-sub: #86868B;
+            --accent-red: #FF3B30; 
+            --accent-blue: #007AFF; 
+            --input-bg: #F5F5F7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 16px 10px;
+            border-radius: 50px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: inline-flex;
+            gap: 32px;
+            padding-left: 40px;
+            padding-right: 40px;
+            z-index: 100;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-sub);
+            font-weight: 500;
+            font-size: 17px;
+            position: relative;
+            transition: opacity 0.2s ease;
+        }
+
+        nav a:hover { color: var(--text-main); }
+
+        nav a.active {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* --- Page Layout --- */
+        .container {
+            max-width: 1000px; 
+            width: 90%;
+            margin-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        /* --- Grid Layout --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* --- Left Side (Header + Socials) --- */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        /* Social Cards */
+        .social-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            
+            /* Prepare for border transition */
+            border: 2px solid transparent; 
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+            
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* NEW: Gradient Border on Hover */
+        .social-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            
+            /* This trick creates a gradient border */
+            background-image: linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+        }
+
+        .social-icon-box {
+            background: #F2F2F7;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+        }
+
+        .social-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .social-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .social-handle {
+            font-size: 20px; 
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* --- Right Side (Form) --- */
+        .form-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 32px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .form-desc {
+            font-size: 16px;
+            color: var(--text-sub);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            color: var(--text-main);
+            box-sizing: border-box; 
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            background-color: #FFF;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button.submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button.submit-btn:hover { opacity: 0.9; }
+
+        /* Footer */
+        .footer-container {
+            margin-top: 80px;
+            text-align: center;
+            opacity: 0.6;
+        }
+        .footer-line-1 { font-size: 14px; color: var(--text-main); font-weight: 500; margin-bottom: 4px; }
+        .footer-line-2 { font-size: 13px; color: var(--text-sub); }
+
+        /* Mobile Responsive */
+        @media (max-width: 800px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr; 
+                gap: 40px;
+            }
+            h1 { font-size: 42px; text-align: center; }
+            .form-container { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html" class="active">Contact</a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="contact-wrapper">
+            
+            <div class="left-panel">
+                <h1>Let's Connect.</h1>
+
+                <a href="https://www.instagram.com/rionkurihara22/" target="_blank" class="social-card">
+                    <div class="social-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </div>
+                    <div class="social-info">
+                        <div class="social-name">Instagram</div>
+                        <div class="social-handle">@rionkurihara22</div>
+                    </div>
+                </a>
+
+                <a href="https://www.linkedin.com/in/rion-kurihara-2b8a8b215/" target="_blank" class="social-card">
+                    <div class="social-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </div>
+                    <div class="social-info">
+                        <div class="social-name">LinkedIn</div>
+                        <div class="social-handle">@Rion Kurihara</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="form-container">
+                <div class="form-title">Down to collaborate?</div>
+                <div class="form-desc">
+                    I’m learning as I build and would love to hear from engineers or privacy/security specialists who might want to collaborate, give feedback, or help move these projects forward.
+                </div>
+
+                <form action="https://formspree.io/f/xvzazovd" method="POST">
+                    
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Jane Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="jane@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>I am a...</label>
+                        <select name="role">
+                            <option value="Software Engineer">Software Engineer</option>
+                            <option value="Product Manager">Product Manager</option>
+                            <option value="UX/UI Designer">UX/UI Designer</option>
+                            <option value="Data Scientist">Data Scientist</option>
+                            <option value="Privacy Specialist">Privacy/Security Specialist</option>
+                            <option value="Founder/VC">Founder / VC</option>
+                            <option value="Student">Student</option>
+                            <option value="Just saying hi">Just saying hi</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea name="message" placeholder="Type your message here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-line-1">© 2026 Rion Kurihara</div>
+            <div class="footer-line-2">Coded with the help of Gemini 3</div>
+        </div>
+
+    </div>
+
+</body>
+</html>

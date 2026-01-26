@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Projects</title>
     <style>
-        /* --- 1. The "Vibe" Settings (CSS) --- */
+        /* --- Shared Styles --- */
         :root {
-            --bg-color: #F5F5F7; /* Apple-style light gray */
+            --bg-color: #F5F5F7;
             --card-bg: #FFFFFF;
             --text-main: #1D1D1F;
             --text-sub: #86868B;
-            --accent-red: #FF3B30; /* The red dot color */
+            --accent-red: #FF3B30; 
+            --accent-blue: #007AFF; 
         }
 
         body {
@@ -25,99 +26,171 @@
             align-items: center;
         }
 
-        /* --- 2. The Floating Pill Navigation --- */
+        /* --- Navigation --- */
         nav {
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px); /* The "frosted glass" effect */
-            padding: 10px 6px;
+            backdrop-filter: blur(20px);
+            padding: 16px 10px; 
             border-radius: 50px;
             margin-top: 40px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             display: inline-flex;
-            gap: 24px;
-            padding-left: 30px;
-            padding-right: 30px;
+            gap: 32px; 
+            padding-left: 40px;
+            padding-right: 40px;
+            z-index: 100;
         }
 
         nav a {
             text-decoration: none;
             color: var(--text-sub);
             font-weight: 500;
-            font-size: 14px;
+            font-size: 17px; 
             position: relative;
-            transition: color 0.2s ease;
+            transition: opacity 0.2s ease;
         }
 
-        nav a:hover {
-            color: var(--text-main);
-        }
+        nav a:hover { color: var(--text-main); }
 
-        /* The "Active" state with the red dot */
         nav a.active {
-            color: var(--text-main);
-        }
-        
-        nav a.active::before {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-red);
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
-        /* --- 3. The Grid Layout --- */
+        /* --- Grid Layout --- */
         .container {
             max-width: 1000px;
             width: 90%;
-            margin-top: 60px;
-            padding-bottom: 60px;
+            margin-top: 80px;
+            padding-bottom: 80px;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            grid-template-columns: 1fr 1fr; 
             gap: 40px;
         }
 
-        /* --- 4. The Project Cards --- */
+        /* --- Card Styling --- */
         .card {
             background: var(--card-bg);
-            border-radius: 32px; /* Super rounded corners like screenshot */
+            border-radius: 32px;
             padding: 40px;
-            height: 500px; /* Fixed height for consistency */
+            /* UPDATED: Explicit fixed height for all cards */
+            height: 500px; 
             position: relative;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            overflow: hidden;
+            overflow: visible; 
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box; /* Ensures padding doesn't affect height */
         }
 
         .card:hover {
-            transform: translateY(-5px); /* Gentle lift on hover */
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* --- Placeholder Style (Gradient Border) --- */
+        .card.placeholder {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            padding: 4px; /* Thickness of the border */
+            box-shadow: none; 
+            cursor: default;
+        }
+        
+        .card.placeholder:hover { transform: none; }
+
+        /* Inner white box for placeholder */
+        .placeholder-inner {
+            background: #FFFFFF;
+            width: 100%;
+            height: 100%;
+            /* UPDATED: Perfect math for nested radius (32px outer - 4px padding) */
+            border-radius: 28px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            margin-bottom: 20px;
+            flex-shrink: 0; 
+        }
+
+        /* Arrow Link */
+        .arrow-link {
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
         }
 
         .arrow-icon {
-            font-size: 24px;
+            font-size: 20px;
             background: #F2F2F7;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
+            color: #1D1D1F;
+            transition: background 0.2s, color 0.2s;
         }
+
+        .card:hover .arrow-icon { background: #E5E5EA; }
+        .arrow-link:hover .arrow-icon { background: var(--accent-blue); color: white; }
+
+        /* Tooltip */
+        .arrow-link::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(29, 29, 31, 0.9); 
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .arrow-link::before {
+            content: '';
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(29, 29, 31, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .arrow-link:hover::after { opacity: 1; visibility: visible; bottom: 135%; }
+        .arrow-link:hover::before { opacity: 1; visibility: visible; bottom: 125%; }
 
         h2 {
             font-size: 32px;
             margin: 0 0 8px 0;
             letter-spacing: -0.5px;
+            font-weight: 700;
         }
 
         p.subtitle {
@@ -125,31 +198,70 @@
             font-size: 18px;
             margin: 0;
             line-height: 1.4;
+            font-weight: 400;
         }
 
-        /* Placeholder for your project images */
-        .card-image-placeholder {
-            margin-top: 40px;
-            width: 100%;
-            height: 300px;
-            background-color: #F2F2F7;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ccc;
+        .status-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
         }
+        .status-label.soon { color: var(--accent-red); }
+
+        /* UPDATED Image Container */
+        .card-image-container {
+            flex-grow: 1;
+            background-color: #F5F5F7; /* Changed back to gray so it doesn't flash white */
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+            position: relative;
+            padding: 0; 
+            display: block; /* Removed flex centering */
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            /* UPDATED: 'cover' forces image to fill the box, removing whitespace */
+            object-fit: cover; 
+            /* UPDATED: Ensures the top of the screenshot is always visible */
+            object-position: top center;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .project-img {
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer-container {
+            grid-column: span 2;
+            margin-top: 40px;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        .footer-line-1 { font-size: 14px; color: var(--text-main); font-weight: 500; margin-bottom: 4px; }
+        .footer-line-2 { font-size: 13px; color: var(--text-sub); }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; } /* Stack on phone */
+            .container { grid-template-columns: 1fr; }
+            .footer-container { grid-column: span 1; }
+            /* Ensure all cards stay same height on mobile too */
+            .card { height: 500px; } 
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html">About</a>
+        <a href="about.html">About</a>
         <a href="projects.html" class="active">Projects</a>
         <a href="contact.html">Contact</a>
     </nav>
@@ -159,14 +271,52 @@
         <div class="card">
             <div class="card-header">
                 <div>
+                    <span class="status-label soon">Launching Soon</span>
                     <h2>CollegeCart</h2>
-                    <p class="subtitle">A secondhand marketplace for students</p>
+                    <p class="subtitle">A safe and simple marketplace for CMU students.</p>
                 </div>
-                <div class="arrow-icon">↗</div>
+                <a href="https://www.collegecart.org/" target="_blank" class="arrow-link" data-tooltip="Our waitlist is open!">
+                    <div class="arrow-icon">↗</div>
+                </a>
             </div>
-            <div class="card-image-placeholder">Image</div>
+            
+            <div class="card-image-container">
+                <img src="college-cart.png" alt="CollegeCart App Interface" class="project-img">
+            </div>
         </div>
 
         <div class="card">
             <div class="card-header">
                 <div>
+                    <span class="status-label">In Development</span>
+                    <h2>Re:collect</h2>
+                    <p class="subtitle">The world's first address book with a brain.</p>
+                </div>
+                <a href="#" class="arrow-link" data-tooltip="Shh... MVP is still a secret!">
+                    <div class="arrow-icon">↗</div>
+                </a>
+            </div>
+            
+            <div class="card-image-container">
+                <img src="recollect.png" alt="Re:collect App Interface" class="project-img">
+            </div>
+        </div>
+
+        <div class="card placeholder">
+            <div class="placeholder-inner">
+                <h2 style="font-size: 24px; color: #86868B;">More to come!</h2>
+                <p class="subtitle" style="margin-top: 10px; font-size: 16px;">
+                    I'm always building. Check back later.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-line-1">© 2026 Rion Kurihara</div>
+            <div class="footer-line-2">Coded with the help of Gemini 3</div>
+        </div>
+
+    </div>
+
+</body>
+</html>

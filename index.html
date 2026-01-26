@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me</title>
     <style>
-        /* --- Shared Styles (Same as Projects page) --- */
+        /* --- Shared Styles --- */
         :root {
             --bg-color: #F5F5F7;
             --card-bg: #FFFFFF;
             --text-main: #1D1D1F;
             --text-sub: #86868B;
-            --accent-red: #FF3B30;
-            --accent-blue: #007AFF; /* Added for links/highlights */
+            --accent-red: #FF3B30; 
+            --accent-blue: #007AFF; 
         }
 
         body {
@@ -26,17 +26,18 @@
             align-items: center;
         }
 
+        /* --- UPDATED NAVIGATION (Bigger) --- */
         nav {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
-            padding: 10px 6px;
+            padding: 16px 10px; /* Increased padding */
             border-radius: 50px;
             margin-top: 40px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             display: inline-flex;
-            gap: 24px;
-            padding-left: 30px;
-            padding-right: 30px;
+            gap: 32px; /* Increased gap */
+            padding-left: 40px;
+            padding-right: 40px;
             z-index: 100;
         }
 
@@ -44,72 +45,105 @@
             text-decoration: none;
             color: var(--text-sub);
             font-weight: 500;
-            font-size: 14px;
+            font-size: 17px; /* Increased font size */
             position: relative;
-            transition: color 0.2s ease;
+            transition: opacity 0.2s ease;
         }
 
         nav a:hover { color: var(--text-main); }
-        nav a.active { color: var(--text-main); }
-        nav a.active::before {
-            content: '';
-            position: absolute;
-            left: -12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-red);
-            border-radius: 50%;
+
+        nav a.active {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
-        /* --- About Page Specific Layout --- */
+        /* --- Page Layout --- */
         .container {
-            max-width: 800px; /* Slightly narrower for reading */
+            max-width: 900px;
             width: 90%;
-            margin-top: 60px;
+            margin-top: 80px; 
             padding-bottom: 80px;
         }
 
-        /* 1. Bio Section */
-        .bio-section {
-            margin-bottom: 60px;
+        /* --- BIO LAYOUT --- */
+        .bio-wrapper {
+            display: flex;
+            align-items: center; 
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 40px; /* Reduced bottom margin to fit Date closer */
         }
 
-        h1 {
-            font-size: 48px;
+        .bio-text-content {
+            flex: 1; 
+            padding-right: 20px;
+        }
+
+        h1.hello-title {
+            font-size: 56px;
             font-weight: 700;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
+            margin: 0 0 20px 0;
+            letter-spacing: -2px;
+            color: var(--text-main);
         }
 
-        p.bio-text {
-            font-size: 20px;
-            line-height: 1.6;
+        p.bio-paragraph {
+            font-size: 22px; 
+            line-height: 1.5;
             color: var(--text-sub);
-            max-width: 600px;
+            margin-bottom: 24px;
+            font-weight: 400;
         }
 
-        /* 2. The "Info Grid" for Loves/Can */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
+        /* Gradient Highlight Class */
+        .highlight {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700; 
         }
 
-        .info-card h3 {
+        /* Avatar Image */
+        .avatar-img {
+            width: 300px; 
+            height: auto;
+            flex-shrink: 0;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); 
+        }
+
+        /* --- Last Updated Date (Moved) --- */
+        .date-divider {
+            border-top: 1px solid #E5E5EA;
+            padding-top: 20px;
+            margin-bottom: 60px; /* Space before Loves section */
+            font-size: 14px;
+            color: var(--text-sub);
+        }
+
+        /* --- Loves Section --- */
+        .loves-section { margin-bottom: 60px; }
+
+        .section-label {
             font-size: 14px;
             text-transform: uppercase;
             color: var(--text-sub);
             letter-spacing: 1px;
             margin-bottom: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #E5E5EA;
+            padding-bottom: 8px;
+            display: block; 
         }
 
         .tag-container {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            margin-bottom: 16px; 
         }
 
         .tag {
@@ -122,12 +156,17 @@
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 3. The Map Section */
+        /* --- Map Style --- */
+        .map-wrapper {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-blue));
+            padding: 10px; 
+            border-radius: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
         .map-container {
             background: white;
-            padding: 20px;
-            border-radius: 32px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-radius: 22px; 
             height: 400px;
             overflow: hidden;
             position: relative;
@@ -137,12 +176,29 @@
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 16px;
+            display: block; 
         }
 
-        @media (max-width: 600px) {
-            .info-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 36px; }
+        /* Footer */
+        .footer-container {
+            margin-top: 80px;
+            text-align: center;
+            opacity: 0.6;
+        }
+
+        .footer-line-1 { font-size: 14px; color: var(--text-main); font-weight: 500; margin-bottom: 4px; }
+        .footer-line-2 { font-size: 13px; color: var(--text-sub); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .bio-wrapper {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 10px;
+            }
+            .bio-text-content { padding-right: 0; }
+            h1.hello-title { font-size: 42px; }
+            .avatar-img { width: 220px; margin-bottom: 20px; }
         }
     </style>
 </head>
@@ -156,46 +212,73 @@
 
     <div class="container">
         
-        <div class="bio-section">
-            <h1>Hello, I'm [Your Name].</h1>
-            <p class="bio-text">
-                TBD. This is where my bio will go.
-            </p>
-        </div>
-
-        <div class="info-grid">
+        <div class="bio-wrapper">
+            <div class="bio-text-content">
+                <h1 class="hello-title">Hello, I'm Rion.</h1>
+                
+                <p class="bio-paragraph">
+                    Building tech that <span class="highlight">values people over attention</span>.
+                </p>
+                
+                <p class="bio-paragraph">
+                    An ENTJ by type and a Cancer at heart, I value both <span class="highlight">strong execution</span> and <span class="highlight">genuine empathy</span> in the work I do.
+                </p>
+            </div>
             
-            <div class="info-card">
-                <h3>Loves</h3>
-                <div class="tag-container">
-                    <span class="tag">⚽️ Arsenal</span>
-                    <span class="tag">🦁 The Lionesses</span>
-                </div>
-            </div>
+            <img 
+                src='https://avataaars.io/?avatarStyle=Transparent&topType=LongHairCurvy&accessoriesType=Prescription02&hairColor=BrownDark&facialHairType=Blank&clotheType=CollarSweater&clotheColor=Blue03&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light'
+                alt="Rion's Avatar" 
+                class="avatar-img"
+            />
+        </div>
 
-            <div class="info-card">
-                <h3>I Can...</h3>
-                <div class="tag-container">
-                    <span class="tag">🎻 Play the violin</span>
-                    <span class="tag">🎸 Play the guitar</span>
-                    <span class="tag">🌺 Play the ukulele</span>
-                </div>
-            </div>
+        <div class="date-divider">
+            Last updated: <span id="last-updated-date">Loading...</span>
+        </div>
 
+        <div class="loves-section">
+            <div class="section-label">Loves</div>
+            
+            <div class="tag-container">
+                <span class="tag">⚽️ Arsenal</span>
+                <span class="tag">🦁 The Lionesses</span>
+                <span class="tag">🐛 Colin the caterpillar</span>
+            </div>
         </div>
 
         <div class="bio-section">
-            <h1>Where I've Been</h1>
-            <p class="bio-text" style="font-size: 16px; margin-bottom: 20px;">
+            <h1 style="font-size: 32px; margin-bottom: 20px;">
+                Travelled to <span id="city-count" class="highlight">0</span> cities
+            </h1>
+            <p style="font-size: 16px; margin-bottom: 20px; color: #86868B;">
                 An interactive map of cities I have visited.
             </p>
             
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1H376cWp-PXYwE_D_T-oHhZgL9bM&ehbc=2E312F" width="640" height="480"></iframe>
+            <div class="map-wrapper">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1KiI9QN9KjuoNzMgNpcsN0yA0fDwQFhM&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
+                </div>
             </div>
         </div>
 
+        <div class="footer-container">
+            <div class="footer-line-1">© 2026 Rion Kurihara</div>
+            <div class="footer-line-2">Coded with the help of Gemini 3</div>
+        </div>
+
     </div>
+
+    <script>
+        // 1. Auto-Date Script
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('last-updated-date').textContent = new Date(document.lastModified).toLocaleDateString('en-US', dateOptions);
+
+        // 2. City Counter Script
+        // UPDATE THIS NUMBER MANUALLY BELOW:
+        const numberOfCities = 42; 
+        
+        document.getElementById('city-count').textContent = numberOfCities;
+    </script>
 
 </body>
 </html>
