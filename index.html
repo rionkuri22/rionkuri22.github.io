@@ -7,12 +7,25 @@
     <style>
         /* --- Shared Styles --- */
         :root {
+            /* Light Mode Variables (Default) */
             --bg-color: #F5F5F7;
             --card-bg: #FFFFFF;
             --text-main: #1D1D1F;
             --text-sub: #86868B;
             --accent-red: #FF3B30; 
             --accent-blue: #007AFF; 
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --logo-color: #000000;
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        body.dark-mode {
+            --bg-color: #000000;       /* True Black background */
+            --card-bg: #1C1C1E;        /* Dark Gray cards */
+            --text-main: #F5F5F7;      /* White text */
+            --text-sub: #A1A1A6;       /* Light Gray subtext */
+            --nav-bg: rgba(28, 28, 30, 0.8); /* Dark frosted nav */
+            --logo-color: #FFFFFF;
         }
 
         body {
@@ -25,6 +38,7 @@
             flex-direction: column;
             align-items: center;
             position: relative; 
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
         }
 
         /* --- LOGO --- */
@@ -34,16 +48,41 @@
             left: 5%; 
             font-size: 24px;
             font-weight: 900; 
-            color: #000000;
+            /* UPDATED: Uses variable so it turns white in dark mode */
+            color: var(--logo-color);
             letter-spacing: -1px;
             text-transform: uppercase;
             text-decoration: none;
             z-index: 200;
+            transition: color 0.3s ease;
+        }
+
+        /* --- DARK MODE TOGGLE BUTTON --- */
+        .theme-toggle {
+            position: absolute;
+            top: 40px;
+            right: 5%; /* Opposite side of logo */
+            background: var(--card-bg);
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* --- NAVIGATION --- */
         nav {
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--nav-bg); /* Updated to variable */
             backdrop-filter: blur(20px);
             padding: 16px 10px; 
             border-radius: 50px;
@@ -54,6 +93,7 @@
             padding-left: 40px;
             padding-right: 40px;
             z-index: 100;
+            transition: background-color 0.3s ease;
         }
 
         nav a {
@@ -62,7 +102,7 @@
             font-weight: 500;
             font-size: 17px; 
             position: relative;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease, color 0.3s ease;
         }
 
         nav a:hover { color: var(--text-main); }
@@ -149,7 +189,8 @@
 
         /* --- Date Divider --- */
         .date-divider {
-            border-top: 1px solid #E5E5EA;
+            border-top: 1px solid var(--text-sub); /* Slightly adjusted for visibility */
+            opacity: 0.3;
             padding-top: 20px;
             margin-bottom: 60px; 
             font-size: 14px;
@@ -180,7 +221,8 @@
             letter-spacing: 1px;
             margin-bottom: 16px;
             font-weight: 600;
-            border-bottom: 1px solid #E5E5EA;
+            border-bottom: 1px solid var(--text-sub);
+            opacity: 0.8;
             padding-bottom: 8px;
             display: block; 
         }
@@ -193,7 +235,7 @@
         }
 
         .tag {
-            background: #FFFFFF;
+            background: var(--card-bg); /* Updated to variable */
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 16px;
@@ -201,12 +243,13 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
             color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .tag.loading {
             opacity: 0.8;
             color: var(--text-sub);
-            border: 1px dashed #E5E5EA; 
+            border: 1px dashed var(--text-sub); 
         }
 
         /* --- Map Style --- */
@@ -222,7 +265,7 @@
         }
 
         .map-container {
-            background: white;
+            background: var(--card-bg);
             border-radius: 22px; 
             height: 400px;
             overflow: hidden;
@@ -234,6 +277,13 @@
             height: 100%;
             border: none;
             display: block; 
+            /* Optional: Filter to darken map in dark mode */
+            /* filter: grayscale(100%) invert(90%); */ 
+        }
+        
+        /* Dark mode map adjustment (Optional - creates a "night mode" map effect) */
+        body.dark-mode iframe {
+            filter: invert(90%) hue-rotate(180deg);
         }
 
         /* Footer */
@@ -249,6 +299,10 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .logo { position: relative; top: 0; left: 0; margin-top: 40px; margin-bottom: -20px; }
+            
+            /* Move toggle button next to logo on mobile */
+            .theme-toggle { top: 40px; right: 5%; }
+
             nav { margin-top: 20px; }
 
             .bio-wrapper {
@@ -278,6 +332,10 @@
 <body>
 
     <div class="logo">.NOIR</div>
+
+    <button class="theme-toggle" id="theme-btn" aria-label="Toggle Dark Mode">
+        <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
 
     <nav>
         <a href="index.html" class="active">About</a>
@@ -367,13 +425,34 @@
     </div>
 
     <script>
-        // 1. Auto-Date Script
+        // --- 1. Auto-Date Script ---
         const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('last-updated-date').textContent = new Date(document.lastModified).toLocaleDateString('en-US', dateOptions);
 
-        // 2. City Counter Script
+        // --- 2. City Counter Script ---
         const numberOfCities = 56; 
         document.getElementById('city-count').textContent = numberOfCities;
+
+        // --- 3. Dark Mode Logic ---
+        const themeBtn = document.getElementById('theme-btn');
+        const body = document.body;
+
+        // Check Local Storage for saved preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save preference to Local Storage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
     </script>
 
 </body>

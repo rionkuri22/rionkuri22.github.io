@@ -7,6 +7,7 @@
     <style>
         /* --- Shared Styles --- */
         :root {
+            /* Light Mode Variables */
             --bg-color: #F5F5F7;
             --card-bg: #FFFFFF;
             --text-main: #1D1D1F;
@@ -14,6 +15,19 @@
             --accent-red: #FF3B30; 
             --accent-blue: #007AFF; 
             --input-bg: #F5F5F7;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --logo-color: #000000;
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        body.dark-mode {
+            --bg-color: #000000;
+            --card-bg: #1C1C1E;
+            --text-main: #F5F5F7;
+            --text-sub: #A1A1A6;
+            --input-bg: #2C2C2E;      /* Darker background for inputs */
+            --nav-bg: rgba(28, 28, 30, 0.8);
+            --logo-color: #FFFFFF;
         }
 
         body {
@@ -25,7 +39,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative; /* For Logo positioning */
+            position: relative; 
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* --- LOGO --- */
@@ -35,16 +50,41 @@
             left: 5%; 
             font-size: 24px;
             font-weight: 900; 
-            color: #000000;
+            /* UPDATED: Uses variable */
+            color: var(--logo-color);
             letter-spacing: -1px;
             text-transform: uppercase;
             text-decoration: none;
             z-index: 200;
+            transition: color 0.3s ease;
+        }
+
+        /* --- DARK MODE TOGGLE BUTTON --- */
+        .theme-toggle {
+            position: absolute;
+            top: 40px;
+            right: 5%; 
+            background: var(--card-bg);
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* --- Navigation --- */
         nav {
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             padding: 16px 10px;
             border-radius: 50px;
@@ -55,6 +95,7 @@
             padding-left: 40px;
             padding-right: 40px;
             z-index: 100;
+            transition: background-color 0.3s ease;
         }
 
         nav a {
@@ -63,7 +104,7 @@
             font-weight: 500;
             font-size: 17px;
             position: relative;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.2s ease, color 0.3s ease;
         }
 
         nav a:hover { color: var(--text-main); }
@@ -100,12 +141,10 @@
         }
 
         h1 {
-            /* Matched exact styles from Index page */
             font-size: 56px;
             font-weight: 700;
             margin: 0;
             letter-spacing: -2px;
-            /* Removed line-height: 1 to match Index page visual weight */
         }
 
         /* Social Cards */
@@ -124,7 +163,7 @@
             background-clip: padding-box, border-box;
             background-origin: padding-box, border-box;
             
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
         }
 
         /* Gradient Border on Hover */
@@ -135,14 +174,20 @@
         }
 
         .social-icon-box {
-            background: #F2F2F7;
+            background: #F2F2F7; /* Optional: could make this variable too if needed */
             width: 50px;
             height: 50px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-main);
+            color: #1D1D1F; /* Keep icon dark or use var(--text-main) */
+        }
+        
+        /* Specific fix for dark mode icons */
+        body.dark-mode .social-icon-box {
+            background: #2C2C2E;
+            color: #FFFFFF;
         }
 
         .social-info {
@@ -171,6 +216,7 @@
             padding: 40px;
             border-radius: 32px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease;
         }
 
         .form-title {
@@ -215,7 +261,7 @@
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            background-color: #FFF;
+            background-color: var(--card-bg);
             border-color: var(--accent-blue);
             box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
         }
@@ -252,6 +298,7 @@
         /* Mobile Responsive */
         @media (max-width: 800px) {
             .logo { position: relative; top: 0; left: 0; margin-top: 40px; margin-bottom: -20px; }
+            .theme-toggle { top: 40px; right: 5%; }
             nav { margin-top: 20px; }
             
             .contact-wrapper {
@@ -266,6 +313,10 @@
 <body>
 
     <div class="logo">.NOIR</div>
+
+    <button class="theme-toggle" id="theme-btn" aria-label="Toggle Dark Mode">
+        <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
 
     <nav>
         <a href="index.html">About</a>
@@ -351,6 +402,28 @@
         </div>
 
     </div>
+
+    <script>
+        const themeBtn = document.getElementById('theme-btn');
+        const body = document.body;
+
+        // Check Local Storage for saved preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save preference to Local Storage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 
 </body>
 </html>
