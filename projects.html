@@ -18,7 +18,7 @@
             --logo-color: #000000;
             --placeholder-inner: #FFFFFF;
             --image-container-bg: #F5F5F7;
-            --card-border: transparent; /* Light mode has no border */
+            --card-border: transparent;
             --card-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
@@ -31,9 +31,8 @@
             --logo-color: #FFFFFF;
             --placeholder-inner: #1C1C1E;
             --image-container-bg: #000000;
-            /* DARK MODE BORDER: Adds white outline to cards */
             --card-border: rgba(255, 255, 255, 0.15); 
-            --card-shadow: 0 20px 40px rgba(255,255,255,0.05); /* Lighter shadow for dark mode */
+            --card-shadow: 0 20px 40px rgba(255,255,255,0.05); 
         }
 
         body {
@@ -92,7 +91,7 @@
             display: inline-flex;
             gap: 32px; 
             z-index: 100;
-            border: 1px solid var(--card-border); /* Helps nav stand out in dark mode */
+            border: 1px solid var(--card-border); 
         }
 
         nav a {
@@ -152,7 +151,7 @@
         .container {
             max-width: 1000px;
             width: 90%;
-            margin-top: 40px; /* Reduced since filter bar is above it */
+            margin-top: 40px; 
             padding-bottom: 80px;
             display: grid;
             grid-template-columns: 1fr 1fr; 
@@ -170,7 +169,7 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box; 
-            border: 1px solid var(--card-border); /* Applies white border in dark mode */
+            border: 1px solid var(--card-border); 
         }
 
         .card:hover {
@@ -213,6 +212,45 @@
         .arrow-link { text-decoration: none; position: relative; }
         .arrow-link:hover .arrow-icon { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 
+        /* Tooltip Logic */
+        .arrow-link::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(29, 29, 31, 0.9); 
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .arrow-link::before {
+            content: '';
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(29, 29, 31, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .arrow-link:hover::after { opacity: 1; visibility: visible; bottom: 135%; }
+        .arrow-link:hover::before { opacity: 1; visibility: visible; bottom: 125%; }
+
         h2 { font-size: 32px; margin: 0 0 8px 0; font-weight: 700; letter-spacing: -0.5px; }
         p.subtitle { color: var(--text-sub); font-size: 18px; margin: 0; line-height: 1.4; }
         
@@ -248,7 +286,7 @@
             width: calc(100% + 80px);
             flex-grow: 1;
             background-color: var(--image-container-bg); 
-            border-radius: 0 0 31px 31px; /* Slightly adjusted to fit inside border seamlessly */
+            border-radius: 0 0 31px 31px; 
             overflow: hidden;
             margin-top: 20px;
             position: relative;
@@ -325,7 +363,7 @@
                     <h2>Re:collect</h2>
                     <p class="subtitle">The world's first address book with a brain.</p>
                 </div>
-                <a href="#" class="arrow-link" data-tooltip="MVP in progress">
+                <a href="javascript:void(0);" class="arrow-link" data-tooltip="Shh... It's still a secret!">
                     <div class="arrow-icon">↗</div>
                 </a>
             </div>
@@ -334,7 +372,7 @@
             </div>
         </div>
 
-        <div class="card" data-category="speed" onclick="window.open('https://github.com/rionkuri22/15113-hw2-crossy-road', '_blank')">
+        <div class="card" data-category="speed">
             <div class="card-header">
                 <div>
                     <span class="status-label speed">Speed Build</span>
@@ -351,7 +389,7 @@
             </div>
         </div>
 
-        <div class="card" data-category="speed" onclick="window.open('https://github.com/rionkuri22/15113-hw3-explore-api', '_blank')">
+        <div class="card" data-category="speed">
             <div class="card-header">
                 <div>
                     <span class="status-label speed">Speed Build</span>
@@ -402,22 +440,17 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active class from all buttons
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
                 btn.classList.add('active');
 
                 const filterValue = btn.getAttribute('data-filter');
 
-                // Loop through all cards and hide/show based on category
                 cards.forEach(card => {
                     const cardCategory = card.getAttribute('data-category');
                     
                     if (filterValue === 'all') {
-                        // Show all cards
                         card.style.display = 'flex';
                     } else {
-                        // Hide placeholder when a specific filter is active, or filter by category
                         if (cardCategory === filterValue) {
                             card.style.display = 'flex';
                         } else {
