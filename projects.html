@@ -13,11 +13,13 @@
             --text-sub: #86868B;
             --accent-red: #FF3B30; 
             --accent-blue: #007AFF; 
-            --accent-purple: #5E5CE6; /* New color for speed build */
+            --accent-purple: #5E5CE6; 
             --nav-bg: rgba(255, 255, 255, 0.8);
             --logo-color: #000000;
             --placeholder-inner: #FFFFFF;
             --image-container-bg: #F5F5F7;
+            --card-border: transparent; /* Light mode has no border */
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         body.dark-mode {
@@ -29,6 +31,9 @@
             --logo-color: #FFFFFF;
             --placeholder-inner: #1C1C1E;
             --image-container-bg: #000000;
+            /* DARK MODE BORDER: Adds white outline to cards */
+            --card-border: rgba(255, 255, 255, 0.15); 
+            --card-shadow: 0 20px 40px rgba(255,255,255,0.05); /* Lighter shadow for dark mode */
         }
 
         body {
@@ -62,7 +67,7 @@
             top: 40px;
             right: 5%; 
             background: var(--card-bg);
-            border: none;
+            border: 1px solid var(--card-border);
             cursor: pointer;
             padding: 10px;
             border-radius: 50%;
@@ -87,6 +92,7 @@
             display: inline-flex;
             gap: 32px; 
             z-index: 100;
+            border: 1px solid var(--card-border); /* Helps nav stand out in dark mode */
         }
 
         nav a {
@@ -107,10 +113,46 @@
             font-weight: 700;
         }
 
+        /* --- FILTER BAR --- */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-sub);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        /* Active Filter State */
+        .filter-btn.active {
+            background: var(--text-main);
+            color: var(--bg-color);
+            border-color: var(--text-main);
+        }
+
         .container {
             max-width: 1000px;
             width: 90%;
-            margin-top: 80px;
+            margin-top: 40px; /* Reduced since filter bar is above it */
             padding-bottom: 80px;
             display: grid;
             grid-template-columns: 1fr 1fr; 
@@ -123,16 +165,17 @@
             padding: 40px;
             height: 500px; 
             position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             box-sizing: border-box; 
+            border: 1px solid var(--card-border); /* Applies white border in dark mode */
         }
 
         .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            box-shadow: var(--card-shadow);
         }
 
         .card.placeholder {
@@ -164,15 +207,15 @@
             justify-content: center;
             color: var(--text-main);
             transition: background 0.2s, color 0.2s;
+            border: 1px solid var(--card-border);
         }
 
         .arrow-link { text-decoration: none; position: relative; }
-        .arrow-link:hover .arrow-icon { background: var(--accent-blue); color: white; }
+        .arrow-link:hover .arrow-icon { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 
         h2 { font-size: 32px; margin: 0 0 8px 0; font-weight: 700; letter-spacing: -0.5px; }
         p.subtitle { color: var(--text-sub); font-size: 18px; margin: 0; line-height: 1.4; }
         
-        /* Specific date styling */
         .project-date {
             font-size: 14px;
             color: var(--text-sub);
@@ -191,7 +234,6 @@
         }
         .status-label.soon { color: var(--accent-red); }
         
-        /* New Speed Build Gradient Label */
         .status-label.speed {
             background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
             -webkit-background-clip: text;
@@ -206,10 +248,11 @@
             width: calc(100% + 80px);
             flex-grow: 1;
             background-color: var(--image-container-bg); 
-            border-radius: 0 0 32px 32px;
+            border-radius: 0 0 31px 31px; /* Slightly adjusted to fit inside border seamlessly */
             overflow: hidden;
             margin-top: 20px;
             position: relative;
+            border-top: 1px solid var(--card-border);
         }
 
         .project-img {
@@ -238,7 +281,7 @@
 </head>
 <body>
 
-    <div class="logo">NOIR.</div>
+    <div class="logo">.NOIR</div>
 
     <button class="theme-toggle" id="theme-btn" aria-label="Toggle Dark Mode">
         <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -250,9 +293,16 @@
         <a href="contact.html">Contact</a>
     </nav>
 
-    <div class="container">
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="soon">Launching Soon</button>
+        <button class="filter-btn" data-filter="dev">In Development</button>
+        <button class="filter-btn" data-filter="speed">Speed Builds</button>
+    </div>
 
-        <div class="card">
+    <div class="container" id="projects-container">
+
+        <div class="card" data-category="soon">
             <div class="card-header">
                 <div>
                     <span class="status-label soon">Launching Soon</span>
@@ -268,7 +318,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" data-category="dev">
             <div class="card-header">
                 <div>
                     <span class="status-label">In Development</span>
@@ -284,7 +334,7 @@
             </div>
         </div>
 
-        <div class="card" onclick="window.open('https://github.com/rionkuri22/15113-hw2-crossy-road', '_blank')">
+        <div class="card" data-category="speed" onclick="window.open('https://github.com/rionkuri22/15113-hw2-crossy-road', '_blank')">
             <div class="card-header">
                 <div>
                     <span class="status-label speed">Speed Build</span>
@@ -301,7 +351,7 @@
             </div>
         </div>
 
-        <div class="card" onclick="window.open('https://github.com/rionkuri22/15113-hw3-explore-api', '_blank')">
+        <div class="card" data-category="speed" onclick="window.open('https://github.com/rionkuri22/15113-hw3-explore-api', '_blank')">
             <div class="card-header">
                 <div>
                     <span class="status-label speed">Speed Build</span>
@@ -318,7 +368,7 @@
             </div>
         </div>
 
-        <div class="card placeholder">
+        <div class="card placeholder" data-category="placeholder">
             <div>
                 <h2 style="font-size: 24px; color: var(--text-sub);">More to come!</h2>
                 <p class="subtitle" style="margin-top: 10px; font-size: 16px;">I'm always building. Check back later.</p>
@@ -333,6 +383,7 @@
     </div>
 
     <script>
+        // --- Dark Mode Logic ---
         const themeBtn = document.getElementById('theme-btn');
         const body = document.body;
 
@@ -343,6 +394,38 @@
         themeBtn.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+
+        // --- Filter Logic ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Loop through all cards and hide/show based on category
+                cards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    
+                    if (filterValue === 'all') {
+                        // Show all cards
+                        card.style.display = 'flex';
+                    } else {
+                        // Hide placeholder when a specific filter is active, or filter by category
+                        if (cardCategory === filterValue) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
