@@ -18,7 +18,7 @@
             --logo-color: #000000;
             --placeholder-inner: #FFFFFF;
             --image-container-bg: #F5F5F7;
-            --card-border: transparent;
+            --card-border: transparent; /* Light mode has no border */
             --card-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
@@ -31,8 +31,9 @@
             --logo-color: #FFFFFF;
             --placeholder-inner: #1C1C1E;
             --image-container-bg: #000000;
+            /* DARK MODE BORDER: Adds white outline to cards */
             --card-border: rgba(255, 255, 255, 0.15); 
-            --card-shadow: 0 20px 40px rgba(255,255,255,0.05); 
+            --card-shadow: 0 20px 40px rgba(255,255,255,0.05); /* Lighter shadow for dark mode */
         }
 
         body {
@@ -91,7 +92,7 @@
             display: inline-flex;
             gap: 32px; 
             z-index: 100;
-            border: 1px solid var(--card-border); 
+            border: 1px solid var(--card-border); /* Helps nav stand out in dark mode */
         }
 
         nav a {
@@ -151,7 +152,7 @@
         .container {
             max-width: 1000px;
             width: 90%;
-            margin-top: 40px; 
+            margin-top: 40px; /* Reduced since filter bar is above it */
             padding-bottom: 80px;
             display: grid;
             grid-template-columns: 1fr 1fr; 
@@ -169,7 +170,7 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box; 
-            border: 1px solid var(--card-border); 
+            border: 1px solid var(--card-border); /* Applies white border in dark mode */
         }
 
         .card:hover {
@@ -406,6 +407,23 @@
             </div>
         </div>
 
+        <div class="card" data-category="speed">
+            <div class="card-header">
+                <div>
+                    <span class="status-label speed">Speed Build</span>
+                    <h2>SleepTracker</h2>
+                    <p class="subtitle">A session-based sleep tracker for irregular schedules.</p>
+                    <div class="project-date">Feb 2026</div>
+                </div>
+                <a href="https://github.com/rionkuri22/15113-hw4-sleep" target="_blank" class="arrow-link" data-tooltip="View Repository">
+                    <div class="arrow-icon">↗</div>
+                </a>
+            </div>
+            <div class="card-image-container">
+                <img src="sleeptracker.png" alt="SleepTracker Interface" class="project-img">
+            </div>
+        </div>
+
         <div class="card placeholder" data-category="placeholder">
             <div>
                 <h2 style="font-size: 24px; color: var(--text-sub);">More to come!</h2>
@@ -440,17 +458,22 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                // Remove active class from all buttons
                 filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
                 btn.classList.add('active');
 
                 const filterValue = btn.getAttribute('data-filter');
 
+                // Loop through all cards and hide/show based on category
                 cards.forEach(card => {
                     const cardCategory = card.getAttribute('data-category');
                     
                     if (filterValue === 'all') {
+                        // Show all cards
                         card.style.display = 'flex';
                     } else {
+                        // Hide placeholder when a specific filter is active, or filter by category
                         if (cardCategory === filterValue) {
                             card.style.display = 'flex';
                         } else {
